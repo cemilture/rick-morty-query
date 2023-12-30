@@ -111,7 +111,7 @@ function App() {
 
   return (
     <div className="container">
-      <h1 className="header">Rick and Morty Characters</h1>
+      <h1 className="header">Search Rick and Morty Characters</h1>
       <div
         className="editable-container"
         id="editableDiv"
