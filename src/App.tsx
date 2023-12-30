@@ -1,6 +1,7 @@
 import "./App.css";
 import { useState, useEffect } from "react";
 import axios from "axios";
+import LoadingSkeleton from "./LoadingSkeleton";
 
 interface Character {
   id: number;
@@ -15,10 +16,13 @@ function App() {
   const [checkedNames, setCheckedNames] = useState<string[]>([]);
   const [currentPage, setCurrentPage] = useState<number>(1);
   const [totalPages, setTotalPages] = useState<number>(1);
+  const [loading, setLoading] = useState<boolean>(true);
 
   useEffect(() => {
     const fetchData = async () => {
       try {
+        // await new Promise((resolve) => setTimeout(resolve, 150000)); for skeleton
+
         let allCharacters: Character[] = [];
         let nextPage = 1;
 
@@ -40,10 +44,13 @@ function App() {
 
         setCharacters(allCharacters);
         setTotalPages(Math.ceil(allCharacters.length / cardsPerPage));
+        setLoading(false); // Set loading to false after data is fetched
       } catch (error) {
         console.error("Error fetching data:", error);
+        setLoading(false); // Set loading to false in case of an error
       }
     };
+
     fetchData();
   }, []);
 
@@ -112,52 +119,59 @@ function App() {
   return (
     <div className="container">
       <h1 className="header">Search Rick and Morty Characters</h1>
-      <div
-        className="editable-container"
-        id="editableDiv"
-        contentEditable
-        onKeyDown={handleInputKeyDown}
-        onInput={handleInputChange}
-      >
-        {checkedNames.map((name) => (
-          <span className="checkedNames" key={name}>
-            {name}
-            <button onClick={() => handleRemoveCheckedName(name)}>
-              &times;
-            </button>
-          </span>
-        ))}
-      </div>
+      {loading ? (
+        <LoadingSkeleton />
+      ) : (
+        <>
+          <div
+            className="editable-container"
+            id="editableDiv"
+            contentEditable
+            onKeyDown={handleInputKeyDown}
+            onInput={handleInputChange}
+          >
+            {checkedNames.map((name) => (
+              <span className="checked-names" key={name}>
+                {name}
+                <button onClick={() => handleRemoveCheckedName(name)}>
+                  &times;
+                </button>
+              </span>
+            ))}
+          </div>
 
-      <div className="results-container">
-        {characters
-          .filter((character) =>
-            character.name.toLowerCase().includes(searchQuery.toLowerCase())
-          )
-          .slice(startIndex, endIndex)
-          .map((character) => (
-            <div
-              className="results-cards"
-              key={character.id}
-              onClick={() => handleCharacterSelect(character)}
-            >
-              <input
-                type="checkbox"
-                checked={checkedNames.includes(character.name)}
-              />
-              <img src={character.image} alt={character.name} />
-              <div>
-                {highlightSearchTerm(character.name, searchQuery)}
-                <br />
-                {character.episode.length} Episodes
-              </div>
-            </div>
-          ))}
-      </div>
+          <div className="results-container">
+            {characters
+              .filter((character) =>
+                character.name.toLowerCase().includes(searchQuery.toLowerCase())
+              )
+              .slice(startIndex, endIndex)
+              .map((character) => (
+                <div
+                  className="results-cards"
+                  key={character.id}
+                  onClick={() => handleCharacterSelect(character)}
+                >
+                  <input
+                    type="checkbox"
+                    checked={checkedNames.includes(character.name)}
+                  />
+                  <img src={character.image} alt={character.name} />
+                  <div>
+                    {highlightSearchTerm(character.name, searchQuery)}
+                    <br />
+                    {character.episode.length} Episodes
+                  </div>
+                </div>
+              ))}
+          </div>
+        </>
+      )}
+
       {totalPages > 1 && (
         <div className="pagination">
           <button
-            className="paginationButton"
+            className="pagination-button"
             onClick={() => handlePageChange(currentPage - 1)}
             disabled={currentPage === 1}
           >
@@ -165,7 +179,7 @@ function App() {
           </button>
           <span>{`Page ${currentPage} of ${totalPages}`}</span>
           <button
-            className="paginationButton"
+            className="pagination-button"
             onClick={() => handlePageChange(currentPage + 1)}
             disabled={currentPage === totalPages}
           >
