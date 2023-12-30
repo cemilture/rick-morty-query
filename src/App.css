@@ -103,6 +103,7 @@ body {
   padding: 10px;
   border-radius: 15px;
   font-size: large;
+  cursor: pointer;
 }
 
 .checked-names {
