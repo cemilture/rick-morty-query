@@ -84,7 +84,7 @@ body {
 
 .results-cards {
   display: flex;
-  text-align: center;
+  text-align: left;
   font-size: larger;
   padding: 10px;
   border-bottom: 1px solid lightsteelblue;

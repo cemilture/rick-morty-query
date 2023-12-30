@@ -38,16 +38,16 @@ function App() {
           if (response.data.info && response.data.info.next) {
             nextPage++;
           } else {
-            break; // No more pages
+            break;
           }
         }
 
         setCharacters(allCharacters);
         setTotalPages(Math.ceil(allCharacters.length / cardsPerPage));
-        setLoading(false); // Set loading to false after data is fetched
+        setLoading(false);
       } catch (error) {
         console.error("Error fetching data:", error);
-        setLoading(false); // Set loading to false in case of an error
+        setLoading(false);
       }
     };
 
@@ -55,7 +55,6 @@ function App() {
   }, []);
 
   useEffect(() => {
-    // Recalculate total pages based on the characters matching the search query
     setTotalPages(
       Math.ceil(
         characters.filter((character) =>
@@ -77,7 +76,6 @@ function App() {
   const handleCharacterSelect = (character: Character) => {
     const characterName = character.name;
 
-    // Toggle the checked status of the character
     if (checkedNames.includes(characterName)) {
       setCheckedNames(checkedNames.filter((name) => name !== characterName));
     } else {
@@ -97,7 +95,7 @@ function App() {
       caretPosition === 0 &&
       checkedNames.length > 0
     ) {
-      e.preventDefault(); // Prevent the default backspace behavior
+      e.preventDefault();
       const lastCheckedName = checkedNames[checkedNames.length - 1];
       handleRemoveCheckedName(lastCheckedName);
     }
