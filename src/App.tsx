@@ -58,25 +58,35 @@ function App() {
     }
 
     setSelectedCharacter(character);
-    setSearchQuery("");
   };
 
   const handleRemoveCheckedName = (name: string) => {
     setCheckedNames(checkedNames.filter((checkedName) => checkedName !== name));
   };
 
+  const handleInputKeyDown = (e: React.KeyboardEvent<HTMLDivElement>) => {
+    const caretPosition = window.getSelection()?.getRangeAt(0).startOffset || 0;
+
+    if (
+      e.key === "Backspace" &&
+      caretPosition === 0 &&
+      checkedNames.length > 0
+    ) {
+      e.preventDefault(); // Prevent the default backspace behavior
+      const lastCheckedName = checkedNames[checkedNames.length - 1];
+      handleRemoveCheckedName(lastCheckedName);
+    }
+  };
+
   const handleInputChange = (e: React.ChangeEvent<HTMLDivElement>) => {
     setSearchQuery(e.currentTarget.textContent || "");
   };
-
-  // const handleClearCheckedNames = () => {
-  //   setCheckedNames([]);
-  // };
 
   return (
     <div>
       <h1>Rick and Morty Characters</h1>
       <div
+        id="editableDiv"
         contentEditable
         style={{
           border: "1px solid #ccc",
@@ -84,6 +94,7 @@ function App() {
           borderRadius: "3px",
           minHeight: "30px",
         }}
+        onKeyDown={handleInputKeyDown}
         onInput={handleInputChange}
       >
         {checkedNames.map((name) => (
