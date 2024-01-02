@@ -51,6 +51,11 @@ body {
   margin: 5px;
 }
 
+.search-input:focus {
+  outline: none;
+  border: none;
+}
+
 .search-input-container span {
   margin: 5px;
   display: inline-block;

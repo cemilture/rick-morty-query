@@ -104,7 +104,7 @@ function App() {
     setCurrentPage(newPage);
   };
 
-  const handleEditableContainerClick = () => {
+  const handleContainerClickFocus = () => {
     // Redirect focus to the search input when editable-container is clicked
     if (searchInputRef.current) {
       searchInputRef.current.focus();
@@ -127,7 +127,7 @@ function App() {
           <div
             className="search-input-container"
             id="editableDiv"
-            onClick={handleEditableContainerClick}
+            onClick={handleContainerClickFocus}
           >
             {checkedNames.map((name) => (
               <span className="checked-names" key={name}>
