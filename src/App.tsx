@@ -18,7 +18,7 @@ function App() {
   const [totalPages, setTotalPages] = useState<number>(1);
   const [loading, setLoading] = useState<boolean>(true);
 
-  const searchInputRef = useRef<HTMLInputElement>(null); // Ref for search input
+  const searchInputRef = useRef<HTMLInputElement>(null);
 
   useEffect(() => {
     const fetchData = async () => {
