@@ -111,6 +111,8 @@ function App() {
   const startIndex = (currentPage - 1) * cardsPerPage;
   const endIndex = startIndex + cardsPerPage;
 
+  console.log(characters.length);
+
   return (
     <div className="container">
       <h1 className="header">Search Rick and Morty Characters</h1>
@@ -164,6 +166,11 @@ function App() {
                   </div>
                 </div>
               ))}
+            {characters.filter((character) =>
+              character.name.toLowerCase().includes(searchQuery.toLowerCase())
+            ).length === 0 && (
+              <div className="no-results">No results found.</div>
+            )}
           </div>
         </>
       )}
