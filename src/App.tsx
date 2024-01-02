@@ -69,11 +69,15 @@ function App() {
   const highlightSearchTerm = (text: string, searchTerm: string) => {
     if (!searchTerm) return text;
     const regex = new RegExp(`(${searchTerm})`, "gi");
-    return text
-      .split(regex)
-      .map((part, index) =>
-        regex.test(part) ? <strong key={index}>{part}</strong> : part
-      );
+    return text.split(regex).map((part, index) =>
+      regex.test(part) ? (
+        <mark className="highlight" key={index}>
+          {part}
+        </mark>
+      ) : (
+        part
+      )
+    );
   };
 
   const handleCharacterSelect = (character: Character) => {
