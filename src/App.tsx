@@ -1,5 +1,5 @@
 import "./App.css";
-import { useState, useEffect } from "react";
+import { useState, useEffect, useRef } from "react";
 import axios from "axios";
 import LoadingSkeleton from "./LoadingSkeleton";
 
@@ -18,6 +18,8 @@ function App() {
   const [totalPages, setTotalPages] = useState<number>(1);
   const [loading, setLoading] = useState<boolean>(true);
 
+  const searchInputRef = useRef<HTMLInputElement>(null); // Ref for search input
+
   useEffect(() => {
     const fetchData = async () => {
       try {
@@ -26,6 +28,7 @@ function App() {
         let allCharacters: Character[] = [];
         let nextPage = 1;
 
+        // eslint-disable-next-line no-constant-condition
         while (true) {
           const response = await axios.get(
             `https://rickandmortyapi.com/api/character/?page=${nextPage}`
@@ -87,30 +90,24 @@ function App() {
     setCheckedNames(checkedNames.filter((checkedName) => checkedName !== name));
   };
 
-  const handleInputKeyDown = (e: React.KeyboardEvent<HTMLDivElement>) => {
-    const caretPosition = window.getSelection()?.getRangeAt(0).startOffset || 0;
+  const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    console.log(e);
 
-    if (
-      e.key === "Backspace" &&
-      caretPosition === 0 &&
-      checkedNames.length > 0
-    ) {
-      e.preventDefault();
-      const lastCheckedName = checkedNames[checkedNames.length - 1];
-      handleRemoveCheckedName(lastCheckedName);
-    }
-  };
-
-  const handleInputChange = (e: React.ChangeEvent<HTMLDivElement>) => {
-    setSearchQuery(e.currentTarget.textContent || "");
+    setSearchQuery(e.target.value);
   };
 
   const handlePageChange = (newPage: number) => {
     setCurrentPage(newPage);
   };
 
-  const cardsPerPage = 8;
+  const handleEditableContainerClick = () => {
+    // Redirect focus to the search input when editable-container is clicked
+    if (searchInputRef.current) {
+      searchInputRef.current.focus();
+    }
+  };
 
+  const cardsPerPage = 8;
   const startIndex = (currentPage - 1) * cardsPerPage;
   const endIndex = startIndex + cardsPerPage;
 
@@ -122,11 +119,9 @@ function App() {
       ) : (
         <>
           <div
-            className="editable-container"
+            className="search-input-container"
             id="editableDiv"
-            contentEditable
-            onKeyDown={handleInputKeyDown}
-            onInput={handleInputChange}
+            onClick={handleEditableContainerClick}
           >
             {checkedNames.map((name) => (
               <span className="checked-names" key={name}>
@@ -136,6 +131,13 @@ function App() {
                 </button>
               </span>
             ))}
+            <input
+              className="search-input"
+              ref={searchInputRef}
+              type="text"
+              onChange={handleInputChange}
+              placeholder="Search characters..."
+            />
           </div>
 
           <div className="results-container">

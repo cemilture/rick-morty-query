@@ -37,7 +37,7 @@ body {
   border-radius: 5px;
 }
 
-.editable-container {
+.search-input-container {
   border: 1px solid lightsteelblue;
   padding: 10px;
   border-radius: 15px;
@@ -45,12 +45,18 @@ body {
   display: inline-block;
 }
 
-.editable-container span {
+.search-input {
+  border: none;
+  padding: 10px;
+  margin: 5px;
+}
+
+.search-input-container span {
   margin: 5px;
   display: inline-block;
 }
 
-.editable-container button {
+.search-input-container button {
   margin-left: 5px;
   cursor: pointer;
   margin-left: 5px;
