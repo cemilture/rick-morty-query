@@ -23,7 +23,7 @@ function App() {
   useEffect(() => {
     const fetchData = async () => {
       try {
-        // await new Promise((resolve) => setTimeout(resolve, 150000)); for skeleton
+        // await new Promise((resolve) => setTimeout(resolve, 150000));
 
         let allCharacters: Character[] = [];
         let nextPage = 1;
