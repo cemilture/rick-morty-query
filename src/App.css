@@ -2,6 +2,21 @@ body {
   font-family: "Arial", sans-serif;
   margin: 0;
   padding: 0;
+  background-image: radial-gradient(
+    circle,
+    #14c7c7,
+    #00c3b4,
+    #11be9f,
+    #2cb988,
+    #42b370,
+    #48aa65,
+    #4da25b,
+    #509951,
+    #498c51,
+    #448050,
+    #40734e,
+    #3d674b
+  );
 }
 
 .container {
@@ -41,6 +56,7 @@ body {
   border-radius: 15px;
   min-height: 45px;
   display: inline-block;
+  background-color: white;
 }
 
 .search-input {
